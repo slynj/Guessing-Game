@@ -14,19 +14,22 @@
 #   ...
 # -----------------------------------------------------------------------------
 
-import PySimpleGUI as gui
+import PySimpleGUI as sg
 
-gui.theme('DarkAmber')   # Add a touch of color
-# All the stuff inside your window.
-layout = [  [gui.Text('Some text on Row 1')],
-            [gui.Text('Enter something on Row 2'), gui.InputText()],
-            [gui.Button('Ok'), gui.Button('Cancel')]]
+sg.theme('BlueMono')    # Theme colour set to blue
 
-window = gui.Window('Number Guessing Game', layout)
+# Elements in the window.
+layout = [
+    [sg.Text('Guessing Game')],
+    [sg.Text('Enter something on Row 2'), sg.InputText()],
+    [sg.Button('Ok'), sg.Button('Cancel')]
+]
+
+window = sg.Window('Number Guessing Game', layout, margins=(100, 50))
 
 while True:
     event, values = window.read()
-    if event == gui.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
+    if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
         break
     print('You entered ', values[0])
 
