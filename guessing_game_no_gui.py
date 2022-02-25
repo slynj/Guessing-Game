@@ -24,13 +24,13 @@ def inputNum():     # gets user input and compares it to the number chosen
     global counter
     counter += 1
 
-    if type(userNum) != int:
+    if not userNum.isnumeric():
         print("Please input a number")
         inputNum()
     else:
         userNum = int(userNum)
 
-    if userNum > end:   # If the user puts a number out of range, give them a warning
+    if userNum > end or userNum < 0:   # If the user puts a number out of range, give them a warning
         print(f"The range is from 0-{end}")
         inputNum()
     else:
@@ -57,7 +57,9 @@ def replayGame():
 
 def guessingGame():
     global num
+    global counter
 
+    counter = 0
     modeSelect()                  # Select the mode
     num = random.randint(0, end)  # Set the number according to the range selected
     inputNum()                    # Get a number from the player
