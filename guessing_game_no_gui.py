@@ -1,12 +1,13 @@
-import random
+import random   # import random to produce a random integer
 
-end = 20        # global int variable that sets the end range of the numbers
+end = 0        # global int variable that sets the end range of the numbers
 counter = 0     # global int variable that counts the number of tries of the player
 
 
 def modeSelect():   # sets the mode according to user input
     mode = input("select your mode [EASY, MEDIUM, HARD]: ").lower()     # EASY(0-20) | MEDIUM(0-50) | HARD(0-100)
     global end
+    end = 20
 
     if mode != "easy":
         if mode == "medium":
@@ -19,21 +20,24 @@ def modeSelect():   # sets the mode according to user input
 
 
 def inputNum():     # gets user input and compares it to the number chosen
-    global userNum
-    userNum = input(f"select a number between 0-{end}: ")
+    global userNum  # stores user inputted number
+    userNum = input(f"select a number between 0-{end}: ")   # get the input
     global counter
-    counter += 1
+    counter += 1    # counts the number of tries
 
+    # check if the inputted value is a number
     if not userNum.isnumeric():
         print("Please input a number")
         inputNum()
     else:
         userNum = int(userNum)
 
-    if userNum > end or userNum < 0:   # If the user puts a number out of range, give them a warning
+    # Check if the number is out of the range
+    if userNum > end or userNum < 0:
         print(f"The range is from 0-{end}")
         inputNum()
     else:
+        # Check if the number is big/small/or the same
         if userNum > num:
             print("Try a smaller number!")
             inputNum()
@@ -44,7 +48,7 @@ def inputNum():     # gets user input and compares it to the number chosen
             print(f"congratulations! You guessed the number in {counter} tries")
 
 
-def replayGame():
+def replayGame():   # ask for a replay and replays/ends the game
     replay = input("Would you like to play again? [YES, NO]: ").lower()
     if replay == "yes":
         guessingGame()
@@ -55,7 +59,7 @@ def replayGame():
         replayGame()
 
 
-def guessingGame():
+def guessingGame():               # The whole game with all the functions in order
     global num
     global counter
 
@@ -66,6 +70,4 @@ def guessingGame():
     replayGame()                  # Ask if player wants to replay the game
 
 
-guessingGame()
-
-
+guessingGame()                    # Play the Game
