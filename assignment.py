@@ -67,12 +67,17 @@ def inputNum():  # gets user input and compares it to the number chosen
         counter += 1  # counts the number of tries
 
         if not userNum.isnumeric():
-            window['-MSG-'].update("Please Input a Number")
+            if userNum[0] == '-':
+                window['-MSG-'].update(f"The range is from 0-{end}")
+
+            else:
+                window['-MSG-'].update("Please Input a Number")
+
         else:
             userNum = int(values['-IN-'])
 
             # Check if the number is out of the range
-            if userNum > end or userNum < 0:
+            if userNum > end:
                 window['-MSG-'].update(f"The range is from 0-{end}")
 
             else:
