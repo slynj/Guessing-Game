@@ -6,7 +6,7 @@
 # Created:     24-Feb-2022
 # Updated:     1-Mar-2022
 # -----------------------------------------------------------------------------
-# I think this project deserves a level XXXXXX because ...
+# I think this project deserves a level 4+ because ...
 #
 # Features Added:
 #   ...
@@ -18,7 +18,7 @@ import PySimpleGUI as sg
 import random
 
 sg.theme('BlueMono')
-layout = [[sg.Button('Reset')],
+layout = [[sg.Button('Reset'), sg.Text('x < NUM < y', justification="right", size=(80, 1), key='-NUM-')],
           [sg.Button('Easy'), sg.Button('Medium'), sg.Button('Hard')],
           [sg.Text('input range: '), sg.Text(key='-RANGE-')],
           [sg.Input(key='-IN-', justification='center'), sg.Button('Submit')],
@@ -27,17 +27,19 @@ layout = [[sg.Button('Reset')],
           [sg.Button('Clear', key='-LEFT-'), sg.Button('Exit')]
           ]
 
-window = sg.Window('Number Guessing Game', layout, element_justification='c')
+window = sg.Window('Number Guessing Game', layout, element_justification='c')  #, element_justification='c'
 
 
 def reset():
-    global end, mode, counter, userNum, status  # global int variable that sets the end range of the numbers
+    global end, mode, counter, userNum, status, min, max  # global int variable that sets the end range of the numbers
 
     end = 0
     mode = ''
     counter = 0
     userNum = 0
     status = 'start'
+    min = 'x'
+    max = 'y'
 
 
 def resetMsg():
@@ -46,6 +48,7 @@ def resetMsg():
     window['-RANGE-'].update("")
     window['-LEFT-'].update("Clear")
     window['-IN-'].update('')
+    window['-NUM-'].update(f"{min} < NUM < {max}")
 
 
 def modeSelect():  # sets the mode according to user input
@@ -75,7 +78,8 @@ def modeSelect():  # sets the mode according to user input
 
 
 def compareNum():  # gets user input and compares it to the number chosen
-    global userNum, counter, num, status  # stores user inputted number
+    global userNum, counter, num, status, min, max  # stores user inputted number
+    window['-NUM-'].update(f"{min} < NUM < {max}")
 
     if event == 'Submit':
 
@@ -106,10 +110,12 @@ def compareNum():  # gets user input and compares it to the number chosen
                     if userNum > num:
                         window['-MSG-'].update(text_color='brown')
                         window['-MSG-'].update("Try a smaller number!")
+                        max = str(userNum)
 
                     elif userNum < num:
                         window['-MSG-'].update(text_color='red')
                         window['-MSG-'].update("Try a bigger number!")
+                        min = str(userNum)
 
                     else:
                         window['-MSG-'].update(text_color='white')
