@@ -50,7 +50,7 @@ def resetMsg():
 def modeSelect():  # sets the mode according to user input
     global end, mode, num
     noSkip = True
-    
+
     if mode == '':
         if event == 'Easy':
             mode = 'Easy'
@@ -92,7 +92,7 @@ def compareNum():  # gets user input and compares it to the number chosen
 
             # Check if the number is out of the range
             if userNum > end:
-                window['-MSG-'].update(f"The range is from 0-{end}")
+                window['-MSG-'].update(f"The range is from 0 - {end}")
 
             else:
                 # Check if the number is big/small/or the same
@@ -119,7 +119,7 @@ def replayGame():   # ask for a replay and replays/ends the game
 
 def clearField():
     global status
-    if status == "start" and event == '-LEFT':
+    if status == "start" and event == '-LEFT-':
         window['-IN-'].update('')
 
 
