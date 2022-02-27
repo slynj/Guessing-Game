@@ -19,29 +19,38 @@ import random
 
 sg.theme('BlueMono')
 layout = [[sg.Button('Easy'), sg.Button('Medium'), sg.Button('Hard')],
-          [sg.Text('input range: '), sg.Text(size=(15, 1), key='-RANGE-')],
-          [sg.Input(key='-IN-'), sg.Button('Submit')],
+          [sg.Text('input range: '), sg.Text(key='-RANGE-')],
+          [sg.Input(key='-IN-', justification='center'), sg.Button('Submit')],
           [sg.Text(key='-MSG-')],
           [sg.Text(key='-RETRY-')],
-          [sg.Button('Clear', key='-LEFT-'), sg.Exit()]
+          [sg.Button('Clear', key='-LEFT-'), sg.Button('Exit')]
           ]
 
-window = sg.Window('Number Guessing Game', layout)
+window = sg.Window('Number Guessing Game', layout, element_justification='c')
 
 
 def reset():
-    global end  # global int variable that sets the end range of the numbers
-    global mode
-    global counter  # global int variable that counts the number of tries of the player
-    global userNum
+    global end, mode, counter, userNum, status  # global int variable that sets the end range of the numbers
+
     end = 0
     mode = ''
     counter = 0
     userNum = 0
+    status = 'start'
+
+
+def resetMsg():
+    window['-MSG-'].update("")
+    window['-RETRY-'].update("")
+    window['-RANGE-'].update("")
+    window['-LEFT-'].update("Clear")
+    window['-IN-'].update('')
 
 
 def modeSelect():  # sets the mode according to user input
     global end, mode, num
+    noSkip = True
+    
     if mode == '':
         if event == 'Easy':
             mode = 'Easy'
@@ -54,20 +63,25 @@ def modeSelect():  # sets the mode according to user input
         elif event == 'Hard':
             mode = 'Hard'
             end = 100
+        
+        else:
+            window['-MSG-'].update('Please Select a Mode')
+            noSkip = False
 
-        window['-RANGE-'].update(f'0 to {end}')
-        num = random.randint(0, end)  # Set the number according to the range selected
+        if noSkip:
+            window['-RANGE-'].update(f'0 to {end}')
+            num = random.randint(0, end)  # Set the number according to the range selected
 
 
-def inputNum():  # gets user input and compares it to the number chosen
-    global userNum, counter, num  # stores user inputted number
+def compareNum():  # gets user input and compares it to the number chosen
+    global userNum, counter, num, status  # stores user inputted number
 
     if event == 'Submit':
         userNum = values['-IN-']  # get the input
         counter += 1  # counts the number of tries
 
         if not userNum.isnumeric():
-            if userNum[0] == '-':
+            if '-' in userNum:
                 window['-MSG-'].update(f"The range is from 0-{end}")
 
             else:
@@ -83,45 +97,42 @@ def inputNum():  # gets user input and compares it to the number chosen
             else:
                 # Check if the number is big/small/or the same
                 if userNum > num:
+                    window['-MSG-'].Update('')
                     window['-MSG-'].update("Try a smaller number!")
                 elif userNum < num:
+                    window['-MSG-'].Update('')
                     window['-MSG-'].update("Try a bigger number!")
                 else:
+                    window['-MSG-'].Update('')
                     window['-MSG-'].update(f"Congratulations! You guessed the number in {counter} tries")
+                    window['-RETRY-'].update("Would you like to replay?")
+                    window['-LEFT-'].update("Replay")
+                    status = "finished"
 
 
-'''
 def replayGame():   # ask for a replay and replays/ends the game
-    replay = input("Would you like to play again? [YES, NO]: ").lower()
-    if replay == "yes":
-        guessingGame()
-    elif replay == "no":
-        print("Thank you for playing :)")
-    else:
-        print("Please input YES or NO")
-        replayGame()
+    global status
+    if status == "finished" and event == '-LEFT-':
+        reset()
+        resetMsg()
 
 
-def guessingGame():               # The whole game with all the functions in order
-    global num
-    global counter
+def clearField():
+    global status
+    if status == "start" and event == '-LEFT':
+        window['-IN-'].update('')
 
-    counter = 0
-    modeSelect()                  # Select the mode
-    num = random.randint(0, end)  # Set the number according to the range selected
-    inputNum()                    # Get a number from the player
-    replayGame()                  # Ask if player wants to replay the game
-
-
-guessingGame()                    # Play the Game
-'''
 
 reset()
+
 while True:
     event, values = window.read()
 
     modeSelect()
-    inputNum()
+    compareNum()
+    replayGame()
+    clearField()
+    # print(event)
 
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
