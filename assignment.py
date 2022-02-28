@@ -46,23 +46,23 @@ window = sg.Window('Number Guessing Game', layout, element_justification='c')
 def reset():
     global end, mode, counter, userNum, status, min, max, userNumStore
 
-    end = 0  # Sets the end range of the number
-    mode = ''  # Mode (easy, medium, hard)
-    counter = 0  # Counts the tries
-    userNum = 0  # Player's number inputted
+    end = 0           # Sets the end range of the number
+    mode = ''         # Mode (easy, medium, hard)
+    counter = 0       # Counts the tries
+    userNum = 0       # Player's number inputted
     status = 'start'  # Current status of the game (start, finish)
-    min = 'x'  # Smallest value the user guessed (indicates that the number is greater than this value)
-    max = 'y'  # Largest value the user guessed (indicates that the number is greater than this value)
-    userNumStore = []  # Stores user's guesses
+    min = 'x'         # Smallest value the user guessed (indicates that the number is greater than this value)
+    max = 'y'         # Largest value the user guessed (indicates that the number is greater than this value)
+    userNumStore = [] # Stores user's guesses
 
 
 # Resets all the text of the window
 def resetMsg():
-    window['-MSG-'].update("")  # Updates the message section to BLANK
-    window['-RETRY-'].update("")  # Updates the retry section to BLANK
-    window['-RANGE-'].update("")  # Updates the range section to BLANK
+    window['-MSG-'].update("")        # Updates the message section to BLANK
+    window['-RETRY-'].update("")      # Updates the retry section to BLANK
+    window['-RANGE-'].update("")      # Updates the range section to BLANK
     window['-LEFT-'].update("Clear")  # Changes back to 'Clear' button from 'Replay' Button
-    window['-IN-'].update('')  # Updates input box to BLANK
+    window['-IN-'].update('')         # Updates input box to BLANK
     window['-NUM-'].update(f"{min} < NUM < {max}")  # Resets to x < NUM < y
 
 
@@ -109,7 +109,8 @@ def compareNum():
 
         # But if the mode is blank, notify them
         if mode == '':
-            window['-MSG-'].update('Please Select a Mode')
+            window['-MSG-'].update(text_color='black')      # Set text colour to black
+            window['-MSG-'].update('Please Select a Mode')  # Notify Player
 
         else:
             userNum = values['-IN-']  # stores from the input box
@@ -117,14 +118,20 @@ def compareNum():
 
             # if the input is not a number
             if not userNum.isnumeric():
-                counter -= 1  # cancel the count
+                # cancel the count
+                counter -= 1
+
+                # Clear the input field
+                window['-IN-'].update('')
+
+                # Set text colour to black
+                window['-MSG-'].update(text_color='black')
 
                 # if a number is negative, notify the range
                 if '-' in userNum:
                     window['-MSG-'].update(f"The range is from 0-{end}")  # notify the player
 
                 else:
-                    window['-MSG-'].update(text_color='black')       # change colour
                     window['-MSG-'].update("Please Input a Number")  # notify the player
 
             else:
@@ -132,6 +139,9 @@ def compareNum():
 
                 # Check if the number is out of the range
                 if userNum > end:
+                    counter -= 1                # Cancel counter
+                    window['-IN-'].update('')   # Clear the input field
+                    window['-MSG-'].update(text_color='black')
                     window['-MSG-'].update(f"The range is from 0 - {end}")
 
                 # Check if the number is big/small/or the same
@@ -158,7 +168,7 @@ def compareNum():
                         status = "finished"                # update the status
 
                     # Clear the input field
-                    clearField()
+                    window['-IN-'].update('')
 
                     # Add the user number in the list to record their number
                     userNumStore.append(userNum)
