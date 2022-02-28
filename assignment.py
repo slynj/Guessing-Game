@@ -18,7 +18,7 @@ import PySimpleGUI as sg
 import random
 
 sg.theme('BlueMono')
-layout = [[sg.Button('Reset'), sg.Text('x < NUM < y', justification="right", size=(80, 1), key='-NUM-')],
+layout = [[sg.Button('Reset'), sg.Text('x < NUM < y', text_color='white', justification="right", size=(80, 1), key='-NUM-')],
           [sg.Button('Easy'), sg.Button('Medium'), sg.Button('Hard')],
           [sg.Text('input range: '), sg.Text(key='-RANGE-')],
           [sg.Input(key='-IN-', justification='center'), sg.Button('Submit')],
@@ -31,7 +31,7 @@ window = sg.Window('Number Guessing Game', layout, element_justification='c')  #
 
 
 def reset():
-    global end, mode, counter, userNum, status, min, max  # global int variable that sets the end range of the numbers
+    global end, mode, counter, userNum, status, min, max, userNumStore  # global int variable that sets the end range of the numbers
 
     end = 0
     mode = ''
@@ -40,6 +40,7 @@ def reset():
     status = 'start'
     min = 'x'
     max = 'y'
+    userNumStore = []
 
 
 def resetMsg():
@@ -78,7 +79,7 @@ def modeSelect():  # sets the mode according to user input
 
 
 def compareNum():  # gets user input and compares it to the number chosen
-    global userNum, counter, num, status, min, max  # stores user inputted number
+    global userNum, counter, num, status, min, max, userNumStore  # stores user inputted number
     window['-NUM-'].update(f"{min} < NUM < {max}")
 
     if event == 'Submit':
@@ -124,6 +125,18 @@ def compareNum():  # gets user input and compares it to the number chosen
                         window['-LEFT-'].update("Replay")
                         status = "finished"
 
+                    userNumStore.append(userNum)
+
+                    if len(userNumStore) != len(set(userNumStore)):
+                        window['-MSG-'].update(text_color='black')
+                        window['-MSG-'].update(f"You have already entered {userNum}")
+                        counter -= 1
+                        userNumStore.pop(-1)
+
+                    print(userNumStore)
+
+                    window['-NUM-'].update(f"{min} < NUM < {max}")
+
 
 def replayGame():   # ask for a replay and replays/ends the game
     global status
@@ -140,7 +153,6 @@ def clearField():
 
 def resetGame():
     if event == 'Reset':
-        print('reset')
         reset()
         resetMsg()
 
@@ -155,7 +167,6 @@ while True:
     replayGame()
     clearField()
     resetGame()
-    # print(event)
 
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
