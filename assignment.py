@@ -92,11 +92,13 @@ def compareNum():  # gets user input and compares it to the number chosen
             counter += 1  # counts the number of tries
 
             if not userNum.isnumeric():
+                counter -= 1
 
                 if '-' in userNum:
                     window['-MSG-'].update(f"The range is from 0-{end}")
 
                 else:
+                    window['-MSG-'].update(text_color='black')
                     window['-MSG-'].update("Please Input a Number")
 
             else:
@@ -133,8 +135,6 @@ def compareNum():  # gets user input and compares it to the number chosen
                         counter -= 1
                         userNumStore.pop(-1)
 
-                    print(userNumStore)
-
                     window['-NUM-'].update(f"{min} < NUM < {max}")
 
 
@@ -157,12 +157,6 @@ def resetGame():
         resetMsg()
 
 
-def pressEnter():
-    window['-IN-'].bind("<Return>", "_Enter")
-    if event == '-IN' + "_Enter":
-        print("ENTERRRRRRRRRRRR")
-
-
 reset()
 
 while True:
@@ -173,7 +167,6 @@ while True:
     replayGame()
     clearField()
     resetGame()
-    # pressEnter()
 
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
