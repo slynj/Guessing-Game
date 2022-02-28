@@ -6,12 +6,21 @@
 # Created:     24-Feb-2022
 # Updated:     1-Mar-2022
 # -----------------------------------------------------------------------------
-# I think this project deserves a level 4+ because ...
+# I think this project deserves a level 4+ because I met all the expectation and
+# also challenged my self to add different features to the original guessing game.
+# I further on added a graphic user interface using PySimpleGUI.
 #
 # Features Added:
-#   ...
-#   ...
-#   ...
+#   1) Graphic Interface
+#   2) Mode Selection
+#   3) Counts 'How many tries it took'
+#   4) Detects Non-Numeric Inputs
+#   5) Detects Numbers That Has Already Been Inputted
+#   6) Detects if the Input is Below/Above Selected Range
+#   7) Displays the Range of What the Number Could be (x < NUM < Y)
+#   8) Reset Button
+#   9) Clear Button
+#  10) Exit Button
 # -----------------------------------------------------------------------------
 
 import PySimpleGUI as sg
