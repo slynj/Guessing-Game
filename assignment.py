@@ -21,7 +21,7 @@ sg.theme('BlueMono')
 layout = [[sg.Button('Reset'), sg.Text('x < NUM < y', text_color='white', justification="right", size=(80, 1), key='-NUM-')],
           [sg.Button('Easy'), sg.Button('Medium'), sg.Button('Hard')],
           [sg.Text('input range: '), sg.Text(key='-RANGE-')],
-          [sg.Input(key='-IN-', justification='center'), sg.Button('Submit')],
+          [sg.Input(key='-IN-', justification='center'), sg.Button('Submit', bind_return_key=True)],
           [sg.Text(key='-MSG-')],
           [sg.Text(key='-RETRY-')],
           [sg.Button('Clear', key='-LEFT-'), sg.Button('Exit')]
@@ -157,6 +157,12 @@ def resetGame():
         resetMsg()
 
 
+def pressEnter():
+    window['-IN-'].bind("<Return>", "_Enter")
+    if event == '-IN' + "_Enter":
+        print("ENTERRRRRRRRRRRR")
+
+
 reset()
 
 while True:
@@ -167,6 +173,7 @@ while True:
     replayGame()
     clearField()
     resetGame()
+    # pressEnter()
 
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
