@@ -71,7 +71,7 @@ def modeSelect():
     global end, mode, num
     noSkip = True  # Stores if the user has started the game without selecting the mode
 
-    # If mode is balnk,
+    # If mode is blank,
     if mode == '':
         # If button is easy, range is 20
         if event == 'Easy':
