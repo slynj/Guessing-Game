@@ -106,7 +106,7 @@ def compareNum():
     window['-NUM-'].update(f"{min} < NUM < {max}")
 
     # If the user pressed the button Submit,
-    if event == 'Submit':
+    if event == 'Submit' and status == 'start':
 
         # But if the mode is blank, notify them
         if mode == '':
