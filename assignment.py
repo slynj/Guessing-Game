@@ -1,6 +1,7 @@
 # -----------------------------------------------------------------------------
-# Name:        Number Guessing Game (guessing_game.py)
-# Purpose:     A description of your program goes here.
+# Name:        Number Guessing Game (assignment.py)
+# Purpose:     Select a random number according to the mode selected by the player.
+#              The player gets to guess the number which would be
 #
 # Author:      Lyn Jeong
 # Created:     24-Feb-2022
@@ -162,8 +163,7 @@ def compareNum():
                     else:
                         window['-MSG-'].update(text_color='white')
                         window['-MSG-'].update(f"Congratulations! You guessed the number in {counter} tries")
-                        window['-RETRY-'].update(
-                            "Would you like to replay?")   # notify the player and ask if they want to replay
+                        window['-RETRY-'].update("Would you like to replay?")   # notify the player and ask if they want to replay
                         window['-LEFT-'].update("Replay")  # update the clear button to appear as a replay button
                         status = "finished"                # update the status
 
